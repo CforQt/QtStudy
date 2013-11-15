@@ -6,5 +6,5 @@ class base
 public:
     base();
 };
-
+/***************/
 #endif // BASE_H
