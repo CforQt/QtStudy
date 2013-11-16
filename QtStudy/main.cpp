@@ -4,6 +4,7 @@
 * @作者：zgkAndhxh                                        *
 **********************************************************/
 //引入头文件
+#include <login/login.h>
 #include <QApplication>
 #include <QSplashScreen>
 #include <QPixmap>
@@ -20,8 +21,11 @@ int main(int argc, char *argv[])
     screen.showNormal ();
     //显示信息
     screen.showMessage (QObject::tr ("启动画面显示"),Qt::AlignBottom,Qt::red);
-    // screen.finish ();
-    /***********程序启动画面开始****************/
+    //显示登录窗口
+    Login login;
 
+    login.show ();
+    screen.finish (login.parentWidget());
+    /***********程序启动画面开始****************/
     return a.exec();
 }

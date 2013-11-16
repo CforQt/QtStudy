@@ -12,9 +12,11 @@ TARGET = QtStudy
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    login/login.cpp
 
-HEADERS  +=
+HEADERS  += \
+    login/login.h
 
 FORMS    +=
 
