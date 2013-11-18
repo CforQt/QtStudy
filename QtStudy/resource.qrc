@@ -3,4 +3,7 @@
         <file alias="splash">img/splash.jpg</file>
         <file alias="background">img/logBak.jpg</file>
     </qresource>
+    <qresource prefix="/resources/config">
+        <file alias="userinfo.cfg">resources/config/userinfo.cfg</file>
+    </qresource>
 </RCC>

@@ -10,6 +10,7 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 #include<QWidget>
+#include<stdlib.h>
 //导入头文件，从编译效率上来讲，头文件放到实现类文件中引入
 
 /***********************************************************************************************************************
@@ -37,7 +38,7 @@ public:
     ~Login();
     //声明信息响应事件（槽）
 private slots:
-    void do_login();
+    bool do_login();
     //声明私有成员，一般将当前组件声明为私有的，信号也设为私有的
 private:
     QLabel *userLabel;

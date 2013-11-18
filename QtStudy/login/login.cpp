@@ -12,6 +12,7 @@
 #include <QtGui>
 #include <QtWidgets>
 #include <QDesktopWidget>
+#include <QFile>
 /**********************************************************************************************************************
  *@说明：实现Login类的构造函数，需要注意的时在实现过程，去掉了作用域的声明，这是因为在头文件中已经声明了作用域
  *@作者：zgkAndhxh
@@ -52,12 +53,16 @@ Login::Login(QWidget *parent): QWidget(parent)
     buttonLayout = new QHBoxLayout;
     buttonLayout->addWidget (loginButton);
     buttonLayout->addWidget (cancleButton);
-
     buttonLayout->setAlignment (Qt::AlignCenter);
+
+    //define the signal
+    QObject::connect (loginButton,SIGNAL(clicked()),this,SLOT(do_login()));
+    QObject::connect (cancleButton,SIGNAL(clicked()),this,SLOT(close()));
+
 
 
     mainLayout = new QVBoxLayout;
-   mainLayout->addStretch (10);
+    mainLayout->addStretch (10);
     mainLayout->addLayout (userLayout);
     mainLayout->addLayout (passLayout);
     mainLayout->addLayout (buttonLayout);
@@ -73,7 +78,7 @@ Login::Login(QWidget *parent): QWidget(parent)
     this->setLayout (mainLayout);
     this->setMaximumSize (360,240);
     this->setMinimumSize (360,240);
-   // this->adjustSize ();
+    // this->adjustSize ();
 
     //设置背景图片
     this->setAutoFillBackground (true);
@@ -107,7 +112,23 @@ Login::~Login(){
  *@作者：zgkAndhxh
  *@日期：2013-11-16
  **********************************************************************************************************************/
-void Login::do_login (){
+bool Login::do_login (){
+  //read the username and password from the file:userinfo.cfg
+    QFile  file(":/resources/config/userinfo.cfg");
+    if(!file.open (QIODevice::ReadOnly)){
+        //file read failed
+    }
+    QString str="";
+    int i = 0;
+    while(!file.atEnd() && i <= 1){
+      str+= file.readLine ();
+      i++;
 
+    }
+    QString username = str.split ("\r\n")[0].split ("=")[1];
+    QString pass = str.split ("\r\n")[1].split ("=")[1];
+    userInput->setText (username);
+    passInput->setText (pass);
+    return false;
 }
 
