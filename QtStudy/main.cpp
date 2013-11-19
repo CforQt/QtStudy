@@ -23,8 +23,7 @@ int main(int argc, char *argv[])
     screen.showMessage (QObject::tr ("启动画面显示"),Qt::AlignBottom,Qt::red);
     //显示登录窗口
     Login login;
-
-    login.show ();
+    login.show();
     screen.finish (login.parentWidget());
     /***********程序启动画面开始****************/
     return a.exec();

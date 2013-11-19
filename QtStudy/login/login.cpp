@@ -20,6 +20,9 @@
  **********************************************************************************************************************/
 Login::Login(QWidget *parent): QWidget(parent)
 {
+    //用于展示登录信息,并居中显示
+    msgLabel = new QLabel;
+    msgLabel->setAlignment (Qt::AlignCenter);
     //设置用户名输入框
     userLabel = new QLabel(QStringLiteral("用户名："));
     userLabel->setFixedWidth (80);
@@ -59,10 +62,9 @@ Login::Login(QWidget *parent): QWidget(parent)
     QObject::connect (loginButton,SIGNAL(clicked()),this,SLOT(do_login()));
     QObject::connect (cancleButton,SIGNAL(clicked()),this,SLOT(close()));
 
-
-
     mainLayout = new QVBoxLayout;
     mainLayout->addStretch (10);
+    mainLayout->addWidget (msgLabel);
     mainLayout->addLayout (userLayout);
     mainLayout->addLayout (passLayout);
     mainLayout->addLayout (buttonLayout);
@@ -113,22 +115,34 @@ Login::~Login(){
  *@日期：2013-11-16
  **********************************************************************************************************************/
 bool Login::do_login (){
-  //read the username and password from the file:userinfo.cfg
+    //read the username and password from the file:userinfo.cfg
     QFile  file(":/resources/config/userinfo.cfg");
     if(!file.open (QIODevice::ReadOnly)){
-        //file read failed
+        msgLabel->setText (QStringLiteral("配置文件读取出错！"));
     }
     QString str="";
     int i = 0;
     while(!file.atEnd() && i <= 1){
-      str+= file.readLine ();
-      i++;
-
+        str+= file.readLine ();
+        i++;
     }
-    QString username = str.split ("\r\n")[0].split ("=")[1];
-    QString pass = str.split ("\r\n")[1].split ("=")[1];
-    userInput->setText (username);
-    passInput->setText (pass);
-    return false;
+    //取完数据后，关闭文件
+    file.close ();
+    QString usernameI = userInput->text ();
+    QString passwordI = passInput->text ();
+    QString usercfg = str.split ("\r\n")[0].split ("=")[1];
+    QString passcfg = str.split ("\r\n")[1].split ("=")[1];
+
+    //在Qt中，字符串可以用==直接比较，而在Java中使用String.equals()方法比较
+    if(usernameI == usercfg && passwordI == passcfg){
+        msgLabel->setText ("<font color=red>"+QStringLiteral("恭喜你，登录成功！")+"</font>");
+        result = true;
+        return true;
+    }else{
+        msgLabel->setText ("<font color=red>"+QStringLiteral("用户名、密码不正确，请重新输入！")+"</font>");
+        result = false;
+        return false;
+    }
+
 }
 

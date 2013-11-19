@@ -36,11 +36,15 @@ class Login :public QWidget{
 public:
     Login(QWidget *parent = 0);
     ~Login();
+    //定义成员变量，处理较验结果
+    bool result;
+
     //声明信息响应事件（槽）
 private slots:
     bool do_login();
     //声明私有成员，一般将当前组件声明为私有的，信号也设为私有的
 private:
+    QLabel *msgLabel;
     QLabel *userLabel;
     QLabel *passLabel;
     QLineEdit *userInput;
